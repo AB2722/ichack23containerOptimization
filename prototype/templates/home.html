@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="../static/css/search.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="row top-buffer" id="search-title-row">
+    <div class="col-md-auto mx-auto py-3 px-5 rounded-30">
+        <h1>Enter an object</h1>
+    </div>
+</div>
+
+<!-- FORM -->
+<!--Search by keyword-->
+<form action="{{ url_for('search') }}" method="post">
+    <!--Search by keyword-->
+    <div class="form-group">
+        <div class="row top-buffer justify-content-center" id="search-by-row">
+            <div class="col-4">  
+                <input name="search_scholarship_value" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                  
+            </div>
+            <div class="col-1 d-flex justify-content-center">
+                <button type="submit" class="search-button w-100"></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row" style="padding: 2.5em 5em 2.5em 5em">
+    {% if rows|length > 0 %}
+        {% for row in rows %}
+        <div id="container">	
+            <div class="product-details">
+                <h1>{{row[0]}}</h1>
+                <p class="information">{{row[1]}}</p>
+            </div>    
+            <div class="product-image">
+                <!-- change -->
+                <img src="{{ url_for('static',filename='output/{}.png'.format(picture_url) ) }}">
+                
+                <div class="info">
+                    <h2>Description</h2>
+                    <ul>
+                        <!-- change -->
+                        <li><strong>Company : </strong>{{row[2]}}</li>
+                        <li><strong>Price : </strong>{{row[3]}}</li>
+                        <li><strong>Material: </strong>{{row[4]}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="d-flex justify-content-center" style="padding:2em;">
+            <p style="font-size: large;">No results found...</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
